@@ -1,0 +1,152 @@
+# Lectura de Datos
+
+En este capítulo revisaremos una tabla de datos extensa de la cual obtendremos varios resultados con varias herramientas que ya conocemos y algunas nuevas
+
+R contiene una librería con datos reales que pueden ser usados, para acceder a ella debemos instalar el paquete **datasets** y escribir el comando `datasets::`y pulsar el tabulador; esta librería te será muy útil para practicar. 
+
+En esta clase no utilizaremos los datos de la librería de `R`, sino que cargaremos un documento tipo csv de datos de becarios del SENECYT.
+
+Para cargar datos csv en `R` escribimos el comando `read.csv()`, en el argumento colocaremos el directorio del archivo, sin embargo si el archivo se encuentra en la misma carpeta del proyecto basta con colocar el nombre del archivo y la extensión del mismo. 
+
+Ahora si el archivo de datos es de tipo **xlsx** primero deberás instalar el paquete `readxl` y ejecutar el comando `read_excel()`
+
+```{r}
+#Carguemos y almacenemos el archivo
+incendio<- read.csv("./documentos/maate_incendio.csv")
+```
+
+Si queremos observar la tabla de datos podemos acceder a través del panel de entorno o con el comando `View()`
+
+```{r, eval=FALSE}
+View(incendio)
+```
+
+Si quisiéramos ver parcialmente la información que tenemos podemos visualizar las 6 primeras filas de datos con el comando `head()`, también podemos visualizar las 6 últimas filas con el comando `tail()`.
+
+```{r}
+# Visualización de las 6 primeras filas de datos
+head(incendio)
+
+#Visualización de las últimas 6 filas y columnas 7, 9 y 16
+tail(incendio[,c(7,9,16)])
+```
+
+El comando `summary()` es una excelente manera de hacer una inspección inicial de una base de datos, este comando permite obtener un resumen de la información a través de un reporte de estadística descriptiva
+
+```{r}
+summary(incendio)
+```
+
+Ahora revisemos la dimensión de la tabla de datos `dim()`. ¿Cuántos registos tengo (número de filas) `nrow()` y cuantas variables registradas (número de columnas) `ncol()`? y ¿si quiesiera saber el nombre de las variables `colnames()`?
+
+```{r}
+dim(incendio)
+nrow(incendio)
+ncol(incendio)
+colnames(incendio)
+```
+
+Ahora modifiquemos nuestro data frame de ejemplo para dejar únicamente las variables más relevantes
+
+Vamos a eliminar todos los datos de la operadora y practicaremos varias maneras de realizarlo.
+
+```{r}
+# Vamos con la más sencilla
+incendio<- incendio[,-11]
+```
+
+Ahora practicaremos un comando de mucha utilidad `which()` este comando nos permite encontrar índices (es decir el número de orden) correspondientes a variables que cumplan con ciertas caracteríticas.
+
+```{r}
+which(colnames(incendio)=="DPA_PROVIN")
+
+#Ahora vamos a eliminar esta columna
+#Primero almacenaré el índice de la variable a eliminar
+borrar<- which(colnames(incendio)=="DPA_PROVIN")
+#Ahora eliminamos la columna DPA_PROVIN
+incendio<- incendio[,-borrar]
+```
+
+Ahora eliminaremos las columnas que en el nombre tengan la palabra OPERADORA. Utilizaremos el comando `grepl()`, este comando busca comulnas con una caracteritica especifica, en el argumento colocaremos dos items:
+1. El patrón a buscar
+2. En donde buscarmenos el patrón
+
+**grepl** nos dará como resultado una veariable lógica indicándonos si cumple o no con la condición. Si observas bien el caso en el que borramos la columna TIPO_OPERADORA, te darás cuenta que antes de encontrar el índice encontramos un valor lógico. De manera similar realizaremos este caso
+
+```{r}
+#Vamos paso a paso
+#Primero obtendremos la variable lógica 
+grepl("dpa", colnames(incendio), 
+      ignore.case =TRUE)
+#He colocado un tercer item para indicar que no considere mayúsculas y minúsculas
+
+#Ahora buscaremos el indicador y lo almacenaremos
+borrar_2<- which(grepl("dpa",colnames(incendio), ignore.case = TRUE))
+
+#Finalmente lo eliminaremos
+incendio<- incendio[,-borrar_2]
+
+#Hasta ahora el data frame se ve así
+head(incendio)
+```
+
+Recordemos que cuando observamos el resumen de variables nos indicaba que la fecha es tipo caracter, vamos a cambiar a tipo fecha, agregaremos una columna de hora que importaremos de un archivo csv y uniremos estas dos variables en una sola columna. Aquí practicaremos como agregar una nueva columna al data frame, uniremos dos datos en una sola columna, transformaremos a fecha y eliminaremos las columnas que ya han sido unificadas.
+
+```{r}
+#cargamos un archivo tipo csv en un nuevo data frame
+Hora<-read.csv("./documentos/hora.csv", header = FALSE)
+#Unimos dos data frame
+incendio<- cbind(incendio,Hora)
+#Cambiamos el nombre de la columna agregada
+colnames(incendio)[13]<- "ALERTA_HORA"
+incendio$Fecha_Hora<-paste(incendio$ALERTA_FECHA, incendio$ALERTA_HORA)
+incendio$Fecha_Hora<- as.POSIXct(incendio$Fecha_Hora, format= "%m/%d/%Y %H:%M:%OS")
+#Borraremos las columnas que ya no necesitamos
+incendio<- incendio[,which(!grepl("ALERTA",colnames(incendio)))]
+```
+
+Observe que cuando eliminamos las columnas de fecha y hora, a la estructura le agregamos **!** y si somos observadores también identificaremos que quitamos **-**; esto se debe a que el signo **!** es utilizado como negación.
+
+¿Cómo ha quedado el data frame hasta el momento?
+
+```{r}
+head(incendio)
+
+summary(incendio)
+```
+
+Al observar el resumen del data frame, observamos que el la columna de área tenemos a NA, estos casilleros no tiene datos. Ahora supongamos que queremos eliminar las filas que no tienen datos de área afectada. (Ojo: No siempre se deberá borrar las filas que no tienen datos, dependerá del análisis que se quiera hacer)
+
+```{r}
+incendio<- na.omit(incendio)
+```
+
+Para el manejo de data frame tenemos una herramienta muy potente: la función `subset()`. Dicha función permitir seleccionar filas y columnas a la vez, de la siguiente manera: 
+
+**x**: Data frame de entrada.
+**subset**: condición lógica que queramos usar para seleccionar las filas.
+**select**: un vector que contenga el nombre de las columnas que queremos seleccionar (este argumento es necesario si queremos filtrar filas y columnas).
+
+En nuestro ejemplo vamos a buscar datos de la provincia y el cantón que tengan área de afectación mayor a 5 kilómetros cuadraros y que estas áreas afectadas sean parte del Sistema Nacional de Áreas Protegidas snap. 
+
+```{r}
+#Primero pasameros de HA a km2
+
+incendio$AREA_KM2 = incendio$AREA_HA * 0.01
+
+#Ahora obtenemos los datos solicitados
+
+subset(incendio, subset = AREA_KM2 > 5 & CAT_CRUCE == "snap", select = c(PROVINCIA, CANTON))
+```
+
+
+## 📝 Ejercicio
+
+Del paquete `datasets` almacene el conjunto de datos llamado **airquality** y obtenga los siguientes resultados. (Recuerde utilizar las herramientas que hemos aprendido, tambíen puede buscar otro camino, pero siempre a través de codificación)
+
+1. En un data frame llamado **calidad_mayo** extraiga las 6 variables medidas para el mes de mayo. 
+2. Elimine del data frame **calidad_mayo** las filas que contengan NA en cualquiera de las variables
+3. De la información que le quedó en **calidad_mayo** alamacene unicamente las filas en donde la velocidad el viento sea mayor a 10 y la temperatura menor a 70.
+4. Calcule cuantas filas quedaron descartadas después de depurar la información de mayo. 
+5. Traduzque y Cambie los nombres de las columnas del data frame final de **calidad_mayo**
+6. Añada a los datos de mayo una columna con la fecha completa (recuerde que todas las observaciones son del año es del año 1973)

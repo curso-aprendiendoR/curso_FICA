@@ -1,0 +1,81 @@
+# Condicional IF - ELSE
+
+La estructura `if - else` es un conjunto de dos parámetros: la condición y la instrucción si la condición no se cumple. ESto nos permite tener dos indicaciones una cuando la condición si se cumple y una cuando no.
+
+Vamos a realizar un ejercicio en donde ocuparemos el condicional IF - ELSE y una función
+
+```{r}
+operar<- function(a,b,operacion ="suma"){ # Esta llave abre la indicación de la función
+  if(operacion == "suma"){ # Verdadero si operación es igual a la palabra suma
+    c<- a+b
+  }
+  else{# Falso si la palabra no corresponde a suma
+    c<- NA
+  }
+  return(c)
+}
+```
+
+```{r}
+operar(5,7,operacion="suma")
+operar(5,7, operacion = "resta")
+```
+
+## IF - ELSE anidados
+
+La estructura de control if - else puede anidarse, es decir puede concatenarse para obtener instrucciones y acciones más complejas
+
+```{r}
+operacion_a_b<-function(a,b,operacion='suma'){
+  if(operacion=='suma'){# Si operacion es igual a suma
+    c<-a+b
+  }else if(operacion=='resta'){ # Si operacion no es igual a suma y es igual a resta
+    c<- a-b
+  }else if(startsWith(operacion,'multi')) { # Si la operación no es igual a resta y si cumple la condición
+    c<-a*b
+  }else{ # Si operacion no cumple la condición
+    c<-NA
+  }
+  c
+}
+```
+
+Hemos agregado al código el comando `startWith()`que permite determinar una cadena de texto que comience con los caracteres indicados, veamos como funciona este comando y la estructura de control anidada
+
+```{r}
+operacion_a_b(5,7,operacion='resta')
+operacion_a_b(5,7,operacion='suma')
+operacion_a_b(5,7,operacion='multiplicaremos')
+operacion_a_b(5,7,operacion='xxmultiplicaremos')
+operacion_a_b(5,7,operacion='multiplica')
+```
+
+```{r}
+#Declaremos las variables previamente - Es decir coloquemos información en las variables
+a<-5
+b<-3
+paste('La suma de a + b es:',operacion_a_b(a,b,operacion = "suma"))
+paste('La resta de a - b es:',operacion_a_b(a,b,operacion='resta'))
+```
+
+## ifelse() Vectorizado
+
+¿Que significa vectorizar una estructura condicional? Cuando vectorizamos podemos construir en una sola fila un número elevado de estructuras de condición, por lo que los argumentos de la función `ifelse()` seguirán el orden: (condición, que sucede si se cumple, que sucede si no se cumple).
+
+```{r}
+suma_resta<-function(a,b,operacion='suma'){
+  ifelse(operacion=="suma",a+b,
+         ifelse(operacion=='resta',a-b,NA))
+}
+```
+
+```{r}
+suma_resta(5,9,operacion='resta')
+suma_resta(5,9,operacion='mult')
+```
+
+## 📝 Ejercicio
+
+Con la data empleada en el ejercicio del capítulo **Lectura de Datos** realice lo siguiente:
+
+* Guarde en una variable llamada **temperatura_alta** un indicador lógico `TRUE` si alguno de los datos es mayor a 100 Farenheit, además escriba en la pantalla "Alguno de los registros supera los 100 F", si no fuera el caso,  guardar en la variable `FALSE` e imprimir "Ningún registo supera los 100F"
