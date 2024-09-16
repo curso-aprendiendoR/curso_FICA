@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo3 Variables | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="¿Con qué tipo de datos podemos trabajar? R es un lenguaje de programación y entorno de desarrollo especializado en análisis estadístico, por lo que todo proceso lo basaremos en torno a variables...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo3 Variables | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="¿Con qué tipo de datos podemos trabajar? R es un lenguaje de programación y entorno de desarrollo especializado en análisis estadístico, por lo que todo proceso lo basaremos en torno a variables...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo3 Variables | APRENDIENDO R">
+<meta name="twitter:description" content="¿Con qué tipo de datos podemos trabajar? R es un lenguaje de programación y entorno de desarrollo especializado en análisis estadístico, por lo que todo proceso lo basaremos en torno a variables...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="active" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="variables" class="section level1" number="3">
+<h1>
+<span class="header-section-number">Capitulo3</span> Variables<a class="anchor" aria-label="anchor" href="#variables"><i class="fas fa-link"></i></a>
+</h1>
+<p>¿Con qué tipo de datos podemos trabajar?</p>
+<p>R es un lenguaje de programación y entorno de desarrollo especializado en análisis estadístico, por lo que todo proceso lo basaremos en torno a variables matemáticas, sin embargo recordemos que una variable matemática puede ser un valor <strong>numérico</strong> o un valor <strong>no numérico</strong>. Por lo que en este capítulo se describirá diferentes tipo de variables que será de utilidad más adelante.</p>
+<div id="variables-numéricas" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Variables Numéricas<a class="anchor" aria-label="anchor" href="#variables-num%C3%A9ricas"><i class="fas fa-link"></i></a>
+</h2>
+<p>Las variables numéricas, son aquellas que representan números, sean entero como <strong>edad</strong> o decimales como la <strong>estatura</strong> y con ellas se pueden realizar operaciones aritméticas.</p>
+<p>Con los datos numéricos podemos realizar todas las operaciones matemáticas como: sumar (+), restar (-), multiplicar (*), dividir (/), obtener el resto de la división %%, la raíz cuadrada sqrt(), el valor absoluto abs(), obtener una potencia (^), etc.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Asignando las variables</span></span>
+<span></span>
+<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span></span>
+<span></span>
+<span><span class="co">#Suma - Resta - Multiplicación</span></span>
+<span></span>
+<span><span class="va">a</span> <span class="op">+</span> <span class="va">b</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="va">a</span> <span class="op">-</span> <span class="va">b</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
+<span><span class="va">a</span><span class="op">*</span><span class="va">b</span></span>
+<span><span class="co">#&gt; [1] -10</span></span>
+<span></span>
+<span><span class="co">#División</span></span>
+<span></span>
+<span><span class="va">a</span><span class="op">/</span><span class="va">b</span></span>
+<span><span class="co">#&gt; [1] -2.5</span></span>
+<span><span class="va">a</span><span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%/%</a></span><span class="va">b</span></span>
+<span><span class="co">#&gt; [1] -3</span></span>
+<span><span class="va">a</span><span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span><span class="va">b</span></span>
+<span><span class="co">#&gt; [1] -1</span></span>
+<span></span>
+<span><span class="co">#Potencia y raíz</span></span>
+<span></span>
+<span><span class="va">a</span><span class="op">^</span><span class="fl">2</span></span>
+<span><span class="co">#&gt; [1] 25</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in sqrt(b): NaNs produced</span></span>
+<span><span class="co">#&gt; [1] NaN</span></span>
+<span></span>
+<span><span class="co"># NaN es un número que no está definido</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.414214</span></span></code></pre></div>
+</div>
+<div id="variable-de-tipo-caracter-texto" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> Variable de tipo caracter (texto)<a class="anchor" aria-label="anchor" href="#variable-de-tipo-caracter-texto"><i class="fas fa-link"></i></a>
+</h2>
+<p>Dentro de las variables no numéricas, se encuentran las variables cualitativas, por ejemplo, el nombre de una persona o su estado civil.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Asignemos variables de tipo texto</span></span>
+<span><span class="va">nombre</span> <span class="op">=</span> <span class="st">"Lucía"</span></span>
+<span><span class="va">apellido</span> <span class="op">&lt;-</span> <span class="st">"Álvarez"</span></span></code></pre></div>
+<p>Las variables ya están asignadas, y se pueden observar en el panel de entorno, pero no observamos ningún resultado. Vamos a imprimir el resultado y utilizaremos la función <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Impresión de resultados</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">nombre</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Lucía"</span></span></code></pre></div>
+<p>Las cadenas de texto son un tipo especial de dato, que no puede ser operada aritméticamente ya que no son datos numéricos, sin embargo se puede concatenar diferentes variables o varias cadenas de texto.
+Una de las opciones para concatenar es la función <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Practiquemos</span></span>
+<span><span class="va">edad</span> <span class="op">&lt;-</span> <span class="fl">31</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">nombre</span>, <span class="va">apellido</span>,<span class="st">"tiene"</span>, <span class="va">edad</span>, <span class="st">'años'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Lucía Álvarez tiene 31 años"</span></span></code></pre></div>
+<p>Por default esta función agrega espacio por separador, sin embargo se puede configurar agregado <code>,sep="(el separador deseado)"</code></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">nombre</span>, <span class="va">apellido</span>,<span class="st">"tiene"</span>, <span class="va">edad</span>, <span class="st">'años'</span>, sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Lucía-Álvarez-tiene-31-años"</span></span></code></pre></div>
+</div>
+<div id="variables-lógicas-o-booleanas" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Variables Lógicas o Booleanas<a class="anchor" aria-label="anchor" href="#variables-l%C3%B3gicas-o-booleanas"><i class="fas fa-link"></i></a>
+</h2>
+<p>A la pregunta <strong>¿usted tiene hermanos?</strong>, la respuesta será un variable lógica. Si tiene hermanos la respuesta será <code>TRUE</code> y <code>FALSE</code> si no tiene hermanos.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;</span> <span class="fl">8</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">b</span> <span class="op">==</span> <span class="fl">12</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="co">#Hagamos otro ejemplo</span></span>
+<span></span>
+<span><span class="co">#Vamos a crear una secuencia y después comprobaremos si un número está contenido en la secuencia</span></span>
+<span></span>
+<span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="fl">6</span><span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span><span class="va">c</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="co"># A la misma secuencia le preguntaremos si alguno de los elementos es 2</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">c</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Si tuvieramos dudas del tipo de variable con la que estamos trabajando podemos recurrir al comando <code><a href="https://rdrr.io/r/base/class.html">class()</a></code></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "numeric"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">nombre</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "character"</span></span></code></pre></div>
+</div>
+<div id="fechas" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Fechas<a class="anchor" aria-label="anchor" href="#fechas"><i class="fas fa-link"></i></a>
+</h2>
+<p>Uno de los tipos de datos a los que tal vez tengamos que enfrentarnos es a las <strong>fechas</strong>. Si observamos: <code>16-09-2024</code> podemos facilmente comprender que estamos hablando de un día, mes y año específico, es decir un instante en el tiempo con el que podríamos operar, podríamos sumar un día o restar un mes y seguir sabiendo que tenemos una fecha en concreto.
+Sin embargo para R <code>16-09-2024</code> esto es una cadena de texto que no tiene el mismo significado que nosotros le hemos dado</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fecha</span><span class="op">&lt;-</span> <span class="st">"2024-09-16"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "character"</span></span>
+<span></span>
+<span><span class="co">#Sumemos un día es decir 86400 segundos</span></span>
+<span><span class="va">fecha</span> <span class="op">+</span> <span class="fl">86400</span></span>
+<span><span class="co">#&gt; Error in fecha + 86400: non-numeric argument to binary operator</span></span></code></pre></div>
+<p>Entonces es necesario convertir una cadena de texto en <strong>Fecha</strong>, que aunque la seguiremos visualizando como un texto <code>R</code> la almacenará como un número, el número de segundos transcurridos desde el 1 de enero de 1970. Para realizar esta transformación solo se requiere del comando <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct()</a></code> o como lista con el comando <code>as.POSIXLT()</code></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"2024-09-16 10:20"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2024-09-16 10:20:00 -05"</span></span>
+<span><span class="va">f</span> <span class="op">+</span> <span class="fl">86400</span></span>
+<span><span class="co">#&gt; [1] "2024-09-17 10:20:00 -05"</span></span></code></pre></div>
+<p>y ¿qué sucede si tengo mi fecha en otro formato? <code>R</code> no te entenderá y tendremos que explicarle cual es el formato que hemos ingresado</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Ingresaré la fecha en el formato: día/año/año</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"16/09/2024"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "0016-09-20 LMT"</span></span>
+<span></span>
+<span><span class="co">#¿Cómo hago que R me comprenda?</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"16/09/2024"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2024-09-16 -05"</span></span></code></pre></div>
+<p>Una fecha se puede expresar de muchos formatos, y cada uno se codifica de manera diferente, puedes acceder a las ayudas de <code>R</code> para encontrar el formato que requieras <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">?as.POSIXct</a></code></p>
+<p>Tanto as.POSIXct, como as.POSIXlt, se encuentran dentro de los paquetes básicos de <code>R</code>, sin embargo también se cuenta con el paquete <a href="https://lubridate.tidyverse.org">lubridate</a> con diferentes funciones para trabajar con fechas.</p>
+</div>
+<div id="ejercicio" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> 📝 Ejercicio<a class="anchor" aria-label="anchor" href="#ejercicio"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>El fin de semana salió a comer a un restaurante en donde la comida le costó $16, para obtener el valor total debe agregarle el impuesto del valor agregado del 15% y 5% de servicios y propina.</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Almacene en una variable llamada <strong>total</strong> el valor total cancelado.</li>
+<li>Imprima la frase: <strong>La comida ha costado: </strong>
+</li>
+<li>Si usted salió de su casa con $25, imprima una cadena de texto que exprese cuánto dinero le sobró</li>
+</ol>
+<ul>
+<li>Calcula los días y años que han pasado desde la fecha de tu cumpleaños hasta el día de hoy.</li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></div>
+<div class="next"><a href="vectores.html"><span class="header-section-number">4</span> Vectores</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#variables"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="nav-link" href="#variables-num%C3%A9ricas"><span class="header-section-number">3.1</span> Variables Numéricas</a></li>
+<li><a class="nav-link" href="#variable-de-tipo-caracter-texto"><span class="header-section-number">3.2</span> Variable de tipo caracter (texto)</a></li>
+<li><a class="nav-link" href="#variables-l%C3%B3gicas-o-booleanas"><span class="header-section-number">3.3</span> Variables Lógicas o Booleanas</a></li>
+<li><a class="nav-link" href="#fechas"><span class="header-section-number">3.4</span> Fechas</a></li>
+<li><a class="nav-link" href="#ejercicio"><span class="header-section-number">3.5</span> 📝 Ejercicio</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/03-Primeros_pasos.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/03-Primeros_pasos.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

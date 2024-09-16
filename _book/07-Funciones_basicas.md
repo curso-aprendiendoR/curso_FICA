@@ -1,0 +1,52 @@
+# (PART) Facilitando el trabajo: Flujo del programa y Estructuras de Control {-}
+
+# Funciones básicas
+
+## ¿Qué es una función?
+
+Una función es un conjunto de instrucciones, de esta forma, es posible escribir un bloque de código y ejecutarlo para distintos datos. 
+Una ventaja de utilizar funciones dentro de nuestra codificación es que nos ayuda a resolver un problema complejo descomponiendolo en problemas más pequeños. 
+Así, en lugar de utilizar un programa muy grande para resolver un problema complejo se emplean distintos subprogramas que resuelven tareas sencillas.
+
+## Como armo una función
+
+Para crear una función se usa la palabra `function` y se debe tener dos componentes muy importantes:
+1. Los parámetros: los parámetros son los "datos" de entrada que empleará la función y lo pongo entre comillas por que a estos parámetros aun no se les ha asignado datos, son solo nombres que posteriormente ocuparán la información que queramos operar.
+
+¿Suena enredoso? Si un poco, pero tranquilos solo son conconceptos que con la práctica se vuelve más sencillo.
+
+Los parámetros en una función debe ir entre paréntesis y separados por comas.
+
+2.Después viene el código de la función entre {} 
+
+Y listo empecemos
+
+## Creemos nuestra primera función
+
+Empecemos con una función muy facil y que si bien es cierto no es necesaria nos sirve de práctica.
+
+
+``` r
+suma<- function(a,b) # estas son las variables 
+  {
+  #Esto es lo que hace la función
+  c<- a+b
+  return(c) # return no sirve para imprimir
+}
+```
+
+Listo hemos creado la función y la hemos almacenado en una variable llamada **suma**
+
+Ahora la ejecutaremos
+
+
+``` r
+suma(5,7)
+#> [1] 12
+```
+
+Y listo, o casi. Poco a poco iremos avanzando en el uso de **funciones**
+
+## 📝 Ejercicio
+
+Cree una función que sirva para calcular el área, almacene el resultado en una variable e imprima esta variable. Luego ejecute la función con los valores de largo 4 y ancho 12.

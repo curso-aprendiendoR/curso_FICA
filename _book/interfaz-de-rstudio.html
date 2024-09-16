@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo2 Interfaz de RStudio | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="Consola: En la consola podemos ejecutar órdenes y también es la sección en donde se mostrarán los resultados.  Figure 2.1: Consola de R  Entorno de variables: Si observas la imagen anterior, se ha...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo2 Interfaz de RStudio | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Consola: En la consola podemos ejecutar órdenes y también es la sección en donde se mostrarán los resultados.  Figure 2.1: Consola de R  Entorno de variables: Si observas la imagen anterior, se ha...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo2 Interfaz de RStudio | APRENDIENDO R">
+<meta name="twitter:description" content="Consola: En la consola podemos ejecutar órdenes y también es la sección en donde se mostrarán los resultados.  Figure 2.1: Consola de R  Entorno de variables: Si observas la imagen anterior, se ha...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="active" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="interfaz-de-rstudio" class="section level1" number="2">
+<h1>
+<span class="header-section-number">Capitulo2</span> Interfaz de RStudio<a class="anchor" aria-label="anchor" href="#interfaz-de-rstudio"><i class="fas fa-link"></i></a>
+</h1>
+<ul>
+<li>
+<strong>Consola: </strong> En la consola podemos ejecutar órdenes y también es la sección en donde se mostrarán los resultados.</li>
+</ul>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:consola"></span>
+<img src="imagen/consola.png" alt="Consola de R" width="75%"><p class="caption">
+Figure 2.1: Consola de R
+</p>
+</div>
+<ul>
+<li>
+<strong>Entorno de variables: </strong> Si observas la imagen anterior, se ha utilizado la consola como una calculadora, sin embargo, implicitamente hemos realizado un proceso muy importante en la programación, <strong>la asiganción</strong>, que consiste en almacenar un valor en una variable, cuando se asigna una variable se realiza una reserva de memoria.</li>
+</ul>
+<p>Para realizar una asignación en <code>R</code> se debe tener en cuenta tres elementos:</p>
+<ol style="list-style-type: decimal">
+<li>El nombre de la variable</li>
+<li>El operador de asignación que puede ser: &lt;- o =</li>
+<li>El datos a asignar</li>
+</ol>
+<p>Practiquemos, en la consola escribiremos:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">30</span></span>
+<span><span class="va">b</span> <span class="op">=</span> <span class="fl">12</span></span></code></pre></div>
+<p>¿Pero en donde puedo visulaizar las variables que hemos creado?
+El panel de entorno es en donde se irán guardando los objetos con los que trabajemos.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:entorno"></span>
+<img src="imagen/entorno.png" alt="Entorno de R" width="75%"><p class="caption">
+Figure 2.2: Entorno de R
+</p>
+</div>
+<ul>
+<li>
+<strong>Archivos/Plots/Ayuda: </strong> Este cuadrante se encuentra en la parte inferior derecha de la pantalla y tiene varios paneles, entre ellos tenemos la pestaña <code>Files</code> en donde se muestran los documentos del directorio del proyecto en donde se está trabajando actualmente. En el panel también se tiene las pestañas: <code>Plots</code> en donde se mostrarán los gráficos resultantes, <code>Packages</code> los paquetes instalados, <code>Hepl</code>en donde se podrá busrcar la documentación de las funciones.</li>
+</ul>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Archivos"></span>
+<img src="imagen/Archivos.png" alt="Panel de Archivos de R" width="75%"><p class="caption">
+Figure 2.3: Panel de Archivos de R
+</p>
+</div>
+<p>Además si se escribe en la consola <code>? Nombre de la función</code> se activará el panel de ayuda con la información de la función</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span> <span class="va">read.csv</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:ayuda"></span>
+<img src="imagen/ayuda.png" alt="Panel de Ayuda" width="75%"><p class="caption">
+Figure 2.4: Panel de Ayuda
+</p>
+</div>
+<div id="y-en-dónde-programamos" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> ¿ Y En dónde Programamos?<a class="anchor" aria-label="anchor" href="#y-en-d%C3%B3nde-programamos"><i class="fas fa-link"></i></a>
+</h2>
+<p>Recordemos que cuando hablábamos de RStudio, hacíamos el simil con el canal de comunicación, por lo que la última parte del interfaz que nos falta revisar es justamente en donde vamos a progamar. Así que abriremos un Script. Un <strong>Script</strong> no es más que un archivo de texto en el que se escribe las intrucciones para comunicarnos con R.</p>
+<p>¿Podríamos comunicarnos a través de la consola? <strong>Si</strong> sin embargo cuando cierres RStudio, perderás todo.</p>
+<ul>
+<li>
+<strong>Vamos a abrir nuestro primer Script</strong> haciendo click en <code>File&lt;&lt; New File&lt;&lt; R Script</code> Tras abrirlo se desplegará una cuarta ventana en donde empezaremos a trabajar. Recuerda que este archivo se puede guardar tecleando <code>Ctrl + s</code> o haciendo click en <code>Save current Documents</code>
+</li>
+</ul>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:script"></span>
+<img src="imagen/script.png" alt="Apertura de Script" width="75%"><p class="caption">
+Figure 2.5: Apertura de Script
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:scriptp2"></span>
+<img src="imagen/scriptp2.png" alt="Script" width="75%"><p class="caption">
+Figure 2.6: Script
+</p>
+</div>
+
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></div>
+<div class="next"><a href="variables.html"><span class="header-section-number">3</span> Variables</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#interfaz-de-rstudio"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li><a class="nav-link" href="#y-en-d%C3%B3nde-programamos"><span class="header-section-number">2.1</span> ¿ Y En dónde Programamos?</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/02-Interfaz.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/02-Interfaz.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
