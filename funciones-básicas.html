@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo7 Funciones básicas | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="7.1 ¿Qué es una función? Una función es un conjunto de instrucciones, de esta forma, es posible escribir un bloque de código y ejecutarlo para distintos datos. Una ventaja de utilizar funciones...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo7 Funciones básicas | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="7.1 ¿Qué es una función? Una función es un conjunto de instrucciones, de esta forma, es posible escribir un bloque de código y ejecutarlo para distintos datos. Una ventaja de utilizar funciones...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo7 Funciones básicas | APRENDIENDO R">
+<meta name="twitter:description" content="7.1 ¿Qué es una función? Una función es un conjunto de instrucciones, de esta forma, es posible escribir un bloque de código y ejecutarlo para distintos datos. Una ventaja de utilizar funciones...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="active" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="funciones-básicas" class="section level1" number="7">
+<h1>
+<span class="header-section-number">Capitulo7</span> Funciones básicas<a class="anchor" aria-label="anchor" href="#funciones-b%C3%A1sicas"><i class="fas fa-link"></i></a>
+</h1>
+<div id="qué-es-una-función" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> ¿Qué es una función?<a class="anchor" aria-label="anchor" href="#qu%C3%A9-es-una-funci%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
+<p>Una función es un conjunto de instrucciones, de esta forma, es posible escribir un bloque de código y ejecutarlo para distintos datos.
+Una ventaja de utilizar funciones dentro de nuestra codificación es que nos ayuda a resolver un problema complejo descomponiendolo en problemas más pequeños.
+Así, en lugar de utilizar un programa muy grande para resolver un problema complejo se emplean distintos subprogramas que resuelven tareas sencillas.</p>
+</div>
+<div id="como-armo-una-función" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> Como armo una función<a class="anchor" aria-label="anchor" href="#como-armo-una-funci%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
+<p>Para crear una función se usa la palabra <code>function</code> y se debe tener dos componentes muy importantes:
+1. Los parámetros: los parámetros son los “datos” de entrada que empleará la función y lo pongo entre comillas por que a estos parámetros aun no se les ha asignado datos, son solo nombres que posteriormente ocuparán la información que queramos operar.</p>
+<p>¿Suena enredoso? Si un poco, pero tranquilos solo son conconceptos que con la práctica se vuelve más sencillo.</p>
+<p>Los parámetros en una función debe ir entre paréntesis y separados por comas.</p>
+<p>2.Después viene el código de la función entre {}</p>
+<p>Y listo empecemos</p>
+</div>
+<div id="creemos-nuestra-primera-función" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> Creemos nuestra primera función<a class="anchor" aria-label="anchor" href="#creemos-nuestra-primera-funci%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
+<p>Empecemos con una función muy facil y que si bien es cierto no es necesaria nos sirve de práctica.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">suma</span><span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>,<span class="va">b</span><span class="op">)</span> <span class="co"># estas son las variables </span></span>
+<span>  <span class="op">{</span></span>
+<span>  <span class="co">#Esto es lo que hace la función</span></span>
+<span>  <span class="va">c</span><span class="op">&lt;-</span> <span class="va">a</span><span class="op">+</span><span class="va">b</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">c</span><span class="op">)</span> <span class="co"># return no sirve para imprimir</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Listo hemos creado la función y la hemos almacenado en una variable llamada <strong>suma</strong></p>
+<p>Ahora la ejecutaremos</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">suma</span><span class="op">(</span><span class="fl">5</span>,<span class="fl">7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+<p>Y listo, o casi. Poco a poco iremos avanzando en el uso de <strong>funciones</strong></p>
+</div>
+<div id="ejercicio-4" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> 📝 Ejercicio<a class="anchor" aria-label="anchor" href="#ejercicio-4"><i class="fas fa-link"></i></a>
+</h2>
+<p>Cree una función que sirva para calcular el área, almacene el resultado en una variable e imprima esta variable. Luego ejecute la función con los valores de largo 4 y ancho 12.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></div>
+<div class="next"><a href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#funciones-b%C3%A1sicas"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="nav-link" href="#qu%C3%A9-es-una-funci%C3%B3n"><span class="header-section-number">7.1</span> ¿Qué es una función?</a></li>
+<li><a class="nav-link" href="#como-armo-una-funci%C3%B3n"><span class="header-section-number">7.2</span> Como armo una función</a></li>
+<li><a class="nav-link" href="#creemos-nuestra-primera-funci%C3%B3n"><span class="header-section-number">7.3</span> Creemos nuestra primera función</a></li>
+<li><a class="nav-link" href="#ejercicio-4"><span class="header-section-number">7.4</span> 📝 Ejercicio</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/07-Funciones_basicas.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/07-Funciones_basicas.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

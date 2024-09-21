@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo5 Data Frames | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="Recordemos que un vector es un objeto en una sola dimensión, es decir hemos formados columnas independientes. En este capítulo formaremos datos estructurados a través de data frames. Los data...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo5 Data Frames | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Recordemos que un vector es un objeto en una sola dimensión, es decir hemos formados columnas independientes. En este capítulo formaremos datos estructurados a través de data frames. Los data...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo5 Data Frames | APRENDIENDO R">
+<meta name="twitter:description" content="Recordemos que un vector es un objeto en una sola dimensión, es decir hemos formados columnas independientes. En este capítulo formaremos datos estructurados a través de data frames. Los data...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="active" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="data-frames" class="section level1" number="5">
+<h1>
+<span class="header-section-number">Capitulo5</span> Data Frames<a class="anchor" aria-label="anchor" href="#data-frames"><i class="fas fa-link"></i></a>
+</h1>
+<p>Recordemos que un vector es un objeto en una sola dimensión, es decir hemos formados columnas independientes. En este capítulo formaremos datos estructurados a través de data frames.</p>
+<p>Los data frames son un cojunto de vectores de la <strong>misma longitud</strong>, sin embargo, no necesariamente del mismo tipo, lo que hace que tengan una vetaja sobre las matrices que son otro tipo de dato estructuraro de R que permiten almacenar distintas variables siempre y cuando tengan la misma longitud y el mismo tipo de dato.Esto es bastante limitante ya que en la vida real nuestros datos tendrán variables de todo tipo. Para crear data frames se utliza el comando <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> teniendo como argumento los vectores que queremos incluir, siempre separados por comas.</p>
+<p>Crearemos una tabla de datos de la nómina de estudiantes, este data frame está compuesto por variables de tipo caracter y variable tipo numéricas.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Crearemos una tabla de datos de la nómina de estudiantes </span></span>
+<span></span>
+<span><span class="va">nomina_estudiantes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>nombre<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Ana"</span>,<span class="st">"Lucía"</span>,<span class="st">"Romina"</span>, <span class="st">"Helena"</span>, <span class="st">"Santiago"</span>, <span class="st">"Joel"</span><span class="op">)</span>, </span>
+<span>                                 apellido <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cárdenas"</span>,<span class="st">"Yépez"</span>,<span class="st">"Lema"</span>,<span class="st">"Torres"</span>,<span class="st">"Campos"</span>,<span class="st">"López"</span> <span class="op">)</span>,</span>
+<span>                                 edad <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">19</span>,<span class="fl">22</span>,<span class="fl">25</span>,<span class="fl">24</span>,<span class="fl">21</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">nomina_estudiantes</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     nombre apellido edad</span></span>
+<span><span class="co">#&gt; 1      Ana Cárdenas   20</span></span>
+<span><span class="co">#&gt; 2    Lucía    Yépez   19</span></span>
+<span><span class="co">#&gt; 3   Romina     Lema   22</span></span>
+<span><span class="co">#&gt; 4   Helena   Torres   25</span></span>
+<span><span class="co">#&gt; 5 Santiago   Campos   24</span></span>
+<span><span class="co">#&gt; 6     Joel    López   21</span></span></code></pre></div>
+<p>Observemos el data frame obtenido, miramos como cada vector ha formado una columna con el encabezado asignado, supongamos que queremos cambiar el encabezado de la columna (esta acción es muy común y bastante útil), utilizaremos el comando <code><a href="https://rdrr.io/r/base/colnames.html">colnames()</a></code>.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">nomina_estudiantes</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Nombre'</span>,<span class="st">'Apellido'</span>,<span class="st">"Edad"</span><span class="op">)</span></span>
+<span><span class="va">nomina_estudiantes</span></span>
+<span><span class="co">#&gt;     Nombre Apellido Edad</span></span>
+<span><span class="co">#&gt; 1      Ana Cárdenas   20</span></span>
+<span><span class="co">#&gt; 2    Lucía    Yépez   19</span></span>
+<span><span class="co">#&gt; 3   Romina     Lema   22</span></span>
+<span><span class="co">#&gt; 4   Helena   Torres   25</span></span>
+<span><span class="co">#&gt; 5 Santiago   Campos   24</span></span>
+<span><span class="co">#&gt; 6     Joel    López   21</span></span></code></pre></div>
+<p>Revisemos cuantas columnas y cuantas filas tenemos</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">nomina_estudiantes</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">nomina_estudiantes</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 6</span></span></code></pre></div>
+<p>De la misma manera que podemos acceder a la información de un vector, podemos hacerlo en un data frame. Recordando los siguiente <code>[fila,colunma]</code></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Accederemos a la información de la primera fila, segunda columna</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "Cárdenas"</span></span>
+<span></span>
+<span><span class="co">#Seleccionar más de un elemnto del data frame</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">[</span><span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;   Apellido Edad</span></span>
+<span><span class="co">#&gt; 2    Yépez   19</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">[</span><span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Nombre"</span>,<span class="st">"Apellido"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;   Nombre Apellido</span></span>
+<span><span class="co">#&gt; 2  Lucía    Yépez</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;   Nombre Edad</span></span>
+<span><span class="co">#&gt; 1    Ana   20</span></span>
+<span><span class="co">#&gt; 3 Romina   22</span></span>
+<span></span>
+<span><span class="co"># Información de una columna</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">[</span>,<span class="fl">3</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 20 19 22 25 24 21</span></span>
+<span></span>
+<span><span class="co">#Podemos acceder a la información de una columan de manera rápida de la siguiente manera</span></span>
+<span><span class="va">nomina_estudiantes</span><span class="op">$</span><span class="va">Apellido</span></span>
+<span><span class="co">#&gt; [1] "Cárdenas" "Yépez"    "Lema"     "Torres"   "Campos"  </span></span>
+<span><span class="co">#&gt; [6] "López"</span></span></code></pre></div>
+<div id="ejercicio-2" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> 📝 Ejercicio<a class="anchor" aria-label="anchor" href="#ejercicio-2"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>Agregar una columna al data frame <strong>nomina_estudiantes</strong> llamada calificaciones, y regristre las siguientes calificaciones finales: 8.2, 5.4, 8.0, 7.5, 7.0, 6.2.</li>
+<li>Almacene en un data frame llamado <strong>orden_menor_a_mayor</strong> el regristro de estudiantes según la edad. Para ordenar utilice el comando <code><a href="https://rdrr.io/r/base/order.html">order()</a></code> busque información en la ayudas de R.</li>
+<li>Del data frame ordenado extraiga y almacene en una variable llamada <strong>Aprobados</strong> a las personas que obtuvieron mayor o igual a 7. <strong>No se olvide que se aprende a programar, programando</strong> por lo que debe pensar como codificar para que R sea quien identifique y extariga a quienes tienen más o igual a 7.</li>
+</ol>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="vectores.html"><span class="header-section-number">4</span> Vectores</a></div>
+<div class="next"><a href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#data-frames"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="nav-link" href="#ejercicio-2"><span class="header-section-number">5.1</span> 📝 Ejercicio</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/05-Matriz_dataframe.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/05-Matriz_dataframe.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

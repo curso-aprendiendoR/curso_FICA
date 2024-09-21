@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo13 Interpolación - método Kriging Ordinario | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="Kriging es un método de inferencia espacial, el cual nos permite estimar los valores de una variable en lugares no muestreados utilizando la información proporcionada por la muestra.En este...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo13 Interpolación - método Kriging Ordinario | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Kriging es un método de inferencia espacial, el cual nos permite estimar los valores de una variable en lugares no muestreados utilizando la información proporcionada por la muestra.En este...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo13 Interpolación - método Kriging Ordinario | APRENDIENDO R">
+<meta name="twitter:description" content="Kriging es un método de inferencia espacial, el cual nos permite estimar los valores de una variable en lugares no muestreados utilizando la información proporcionada por la muestra.En este...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="active" href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="interpolación---método-kriging-ordinario" class="section level1" number="13">
+<h1>
+<span class="header-section-number">Capitulo13</span> Interpolación - método Kriging Ordinario<a class="anchor" aria-label="anchor" href="#interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario"><i class="fas fa-link"></i></a>
+</h1>
+<p>Kriging es un método de inferencia espacial, el cual nos permite estimar los valores de una variable en lugares no muestreados utilizando la información proporcionada por la muestra.En este capítulo aplicaremos el método de Kriging Ordinario, por lo que no depende de ninguna variable externa y se considera que la media de los datos es constante en todo el dominio, por tanto, usamos la fórmula VARIABLE A INTERPOLAR ~ 1</p>
+<p>La metodología geoestadística no comienza en la estimación espacial o en la determinación del semivariograma, existen etapas prelimiares que son fundamentales para el análisis</p>
+<div id="análisis-preliminar" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> 1. Análisis preliminar<a class="anchor" aria-label="anchor" href="#an%C3%A1lisis-preliminar"><i class="fas fa-link"></i></a>
+</h2>
+<p>Esta eptapa consiste en determinar el área a interpolar siempre recordando que estos porcesos no funcionan en extrapolación.</p>
+</div>
+<div id="análisis-exploratorio-de-los-datos" class="section level2" number="13.2">
+<h2>
+<span class="header-section-number">13.2</span> 2. Análisis exploratorio de los datos<a class="anchor" aria-label="anchor" href="#an%C3%A1lisis-exploratorio-de-los-datos"><i class="fas fa-link"></i></a>
+</h2>
+<p>La segunda etapa consiste en caraterizar estadísticamente la muestra.
+Recordemos que cuando la variable aleatoria sigue una distribución normal los resultados de interpolación obtenidos con Kriging son mejores.
+Por lo que si <strong>la distribución no es simétrica</strong> se trabajará con el logaritmo de los datos.</p>
+<p>Determinemos si la distribución de los datos que tenemos está distribuida simetricamente o no</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Grafiquemos un histograma de los datos</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/gstat/">gstat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/writexl/">writexl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:raster':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, select, union</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="va">TMP.XY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv2</a></span><span class="op">(</span><span class="st">"./documentos/DATOS/TMP.csv"</span>,sep <span class="op">=</span><span class="st">";"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html">coordinates</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span><span class="va">LON</span><span class="op">+</span><span class="va">LAT</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/is.projected.html">proj4string</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=utm +zone=17 +south +datum=WGS84 +units=m +no_defs"</span><span class="op">)</span></span>
+<span><span class="va">DMQ</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/shapefile.html">shapefile</a></span><span class="op">(</span><span class="st">"./documentos/DATOS/DMQ_arc/limite_dmq.shp"</span><span class="op">)</span></span>
+<span><span class="va">original_crs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=tmerc +lat_0=0 +lon_0=-78.5 +k=1.0004584 +x_0=500000 +y_0=10000000 +datum=WGS84 +units=m +no_defs"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/is.projected.html">proj4string</a></span><span class="op">(</span><span class="va">DMQ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">original_crs</span></span>
+<span><span class="va">utm17s</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=17 +south +datum=WGS84 +units=m +no_defs"</span></span>
+<span><span class="va">DMQ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/spTransform.html">spTransform</a></span><span class="op">(</span><span class="va">DMQ</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="va">utm17s</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#Histograma</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">$</span><span class="va">ENE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-1-1.png" width="672"></div>
+<p>¿La distribución es simétrica? <strong>No</strong>, tendremos que trabajar con el logaritmo de nuestra data</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">$</span><span class="va">ENE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+</div>
+<div id="dependencia-espacial-y-estimación-del-semivariograma-experimental" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">13.3</span> Dependencia espacial y estimación del semivariograma experimental<a class="anchor" aria-label="anchor" href="#dependencia-espacial-y-estimaci%C3%B3n-del-semivariograma-experimental"><i class="fas fa-link"></i></a>
+</h2>
+<p>La parte central de usar Kriging para interpolar datos espaciales es usar la primera ley de la Geografía: Todo está relacionado con todo, pero las cosas cercanas están más relacionadas que las cosas lejanas (Waldo Tobler). En este caso, de lo que se trata es de encontrar un límite a la dependencia espacial, es decir, ¿Qué tanto la medición en un lugar se parece a los de los lugares cercanos? y ¿Qué tan cerca es cerca?</p>
+<p>Para resolver estas preguntas vamos a usar los variogramas, que representan una medida de cómo varia un campo como función de la distancia entre mediciones</p>
+<div>
+<p style="text-align:center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SJLDlasDLEU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+</p>
+</div>
+
+<p>Generemos el variograma</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">TMP_ENE.ve.d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/variogram.html">variogram</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">ENE</span><span class="op">)</span><span class="op">~</span><span class="fl">1</span>, <span class="va">TMP.XY</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP_ENE.ve.d</span>, pl <span class="op">=</span> <span class="cn">T</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-3-1.png" width="672"></div>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TMP_ENE.ve.d</span></span>
+<span><span class="co">#&gt;    np      dist        gamma dir.hor dir.ver   id</span></span>
+<span><span class="co">#&gt; 1   3  4648.558 0.0005391867       0       0 var1</span></span>
+<span><span class="co">#&gt; 2   4  8207.855 0.0037730629       0       0 var1</span></span>
+<span><span class="co">#&gt; 3   9 11085.018 0.0082723204       0       0 var1</span></span>
+<span><span class="co">#&gt; 4   6 14012.436 0.0046559570       0       0 var1</span></span>
+<span><span class="co">#&gt; 5   4 17574.837 0.0057585889       0       0 var1</span></span>
+<span><span class="co">#&gt; 6   2 21593.200 0.0160952120       0       0 var1</span></span>
+<span><span class="co">#&gt; 7   3 22519.634 0.0058405426       0       0 var1</span></span>
+<span><span class="co">#&gt; 8   3 26651.999 0.0125245741       0       0 var1</span></span>
+<span><span class="co">#&gt; 9   2 31236.805 0.0040526438       0       0 var1</span></span>
+<span><span class="co">#&gt; 10  1 33540.489 0.1031849104       0       0 var1</span></span>
+<span><span class="co">#&gt; 11  3 35898.470 0.0416461451       0       0 var1</span></span>
+<span><span class="co">#&gt; 12  2 39775.018 0.0622895662       0       0 var1</span></span>
+<span><span class="co">#&gt; 13  4 43012.082 0.0960088173       0       0 var1</span></span>
+<span><span class="co">#&gt; 14  5 44965.064 0.0446283170       0       0 var1</span></span></code></pre></div>
+<p>En el variogramada hay dos ajustes que son de particular interés: cutoff y width . El cutoff representa la distancia espacial máxima que se tiene en cuenta entre dos observaciones. El width es el intervalo de distancia sobre el que se calcula la semivarianza y podrían ser configurados.</p>
+</div>
+<div id="variograma-teórico-o-modelo-de-variograma" class="section level2" number="13.4">
+<h2>
+<span class="header-section-number">13.4</span> Variograma Teórico o Modelo de Variograma<a class="anchor" aria-label="anchor" href="#variograma-te%C3%B3rico-o-modelo-de-variograma"><i class="fas fa-link"></i></a>
+</h2>
+<p>El variograma experimental que calculamos en la sección anterior contiene información sobre la dependencia espacial de nuestros datos, sin embargo, para poder interpolar, necesitamos calcular la variable de interés en lugares en donde no se muestreó.</p>
+<p>Observemos los diferentes modelos teóricos</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://r-spatial.github.io/gstat/reference/show.vgms.html">show.vgms</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+</div>
+<div id="ajuste-a-variograma" class="section level2" number="13.5">
+<h2>
+<span class="header-section-number">13.5</span> Ajuste a Variograma<a class="anchor" aria-label="anchor" href="#ajuste-a-variograma"><i class="fas fa-link"></i></a>
+</h2>
+<p>Cualquier función que dependa de una distancia y una dirección no es necesariamente un semivariograma, esta es la razón por la que el semivariograma empírico no puede utilizarse directamente para realizar predicciones geoestadísticas. Por ello, a los valores semivariográficos estimados se les ajusta una función que represente un semivariograma válido.</p>
+<p>Esta tarea, clave para el éxito del posterior proceso predictivo, no es sencilla ni existe consenso en torno a ella. El ajuste puede ser manual, utilizando métodos visuales y gráficos, o automático, que usa procedimientos estadísticos. Una combinación de ambos es muy recomendable.</p>
+<p>Para un análisis visual se requiere establecer:</p>
+<ul>
+<li>
+<strong>Sill</strong> que corresponde al valor de la función cuando la distancia es mayor que el rango.</li>
+<li>
+<strong>Rango</strong> El valor de distancia a partir del cual ya no se observa dependencia espacial</li>
+<li>
+<strong>Nugget</strong> Si los puntos no empezaran desde el punto 0,0</li>
+</ul>
+<p>Un ajuste automático puede realizarse a través de la función <code>fit.variogram</code></p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TMP_ENE.vi.d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/vgm.html">vgm</a></span><span class="op">(</span>nugget<span class="op">=</span><span class="fl">0</span>, model<span class="op">=</span><span class="st">"Gau"</span>, range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">@</span><span class="va">bbox</span><span class="op">[</span><span class="st">"LON"</span>,<span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">@</span><span class="va">bbox</span><span class="op">[</span><span class="st">"LAT"</span>,<span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">4</span>, psill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">$</span><span class="va">ENE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP_ENE.ve.d</span>, pl<span class="op">=</span><span class="cn">T</span>, model<span class="op">=</span><span class="va">TMP_ENE.vi.d</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-5-1.png" width="672"></div>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Ajuste automático</span></span>
+<span><span class="va">TMP_ENE.vt.d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/fit.variogram.html">fit.variogram</a></span><span class="op">(</span><span class="va">TMP_ENE.ve.d</span>, model<span class="op">=</span><span class="va">TMP_ENE.vi.d</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP_ENE.ve.d</span>, pl <span class="op">=</span> <span class="cn">T</span>, model <span class="op">=</span> <span class="va">TMP_ENE.vt.d</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-6-1.png" width="672"></div>
+<p>Para la interpolación utilizaremos el ajuste automático almacenado en <strong>TMP_ENE.vt.d</strong></p>
+</div>
+<div id="interpolación" class="section level2" number="13.6">
+<h2>
+<span class="header-section-number">13.6</span> Interpolación<a class="anchor" aria-label="anchor" href="#interpolaci%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
+<p>Empezamos creando la grilla</p>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grilla</span> <span class="op">=</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/spsample.html">spsample</a></span><span class="op">(</span><span class="va">TMP.XY</span>, type <span class="op">=</span> <span class="st">"regular"</span>, cellsize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">grilla</span><span class="op">)</span> <span class="co">#Verificamos el tipo de dato</span></span>
+<span><span class="co">#&gt; [1] "SpatialPoints"</span></span>
+<span><span class="co">#&gt; attr(,"package")</span></span>
+<span><span class="co">#&gt; [1] "sp"</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/gridded-methods.html">gridded</a></span><span class="op">(</span><span class="va">grilla</span><span class="op">)</span> <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#Verifica si se encuentra cuadriculado</span></span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">OK.TMP.ENE.LOG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/krige.html">krige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">ENE</span><span class="op">)</span><span class="op">~</span><span class="fl">1</span>, locations <span class="op">=</span> <span class="va">TMP.XY</span>, newdata <span class="op">=</span> <span class="va">grilla</span>, model <span class="op">=</span> <span class="va">TMP_ENE.vt.d</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [using ordinary kriging]</span></span></code></pre></div>
+<p>La interpolación se realizó con éxito, obteniendo dos bandas:</p>
+<ul>
+<li><p>Una correspondiente a los valores interpolados</p></li>
+<li><p>La varianza, que indica la incertidumbre asociada a cada estimación.</p></li>
+</ul>
+<p>Para recuperar los valores originales, se aplica una transformación exponencial a la banda de los valores interpolados. Aplicando la función exponencial a los resultados, se revierten estos valores a su escala original, permitiendo interpretarlos de manera correcta.</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">OK.TMP.ENE.LOG</span><span class="op">$</span><span class="va">ENE.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">OK.TMP.ENE.LOG</span><span class="op">$</span><span class="va">var1.pred</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">OK.TMP.ENE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">OK.TMP.ENE.LOG</span>, layer <span class="op">=</span> <span class="st">"ENE.pred"</span><span class="op">)</span></span>
+<span><span class="va">OK.TMP.ENE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/mask.html">mask</a></span><span class="op">(</span><span class="va">OK.TMP.ENE</span>, <span class="va">DMQ</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">OK.TMP.ENE</span>, main <span class="op">=</span> <span class="st">"Interpolación mediante Kriging Ordinario\n para el mes de enero\n Variable de Temperatura"</span>, col.regions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">OK.TMP.ENE.VAR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">OK.TMP.ENE.LOG</span>, layer <span class="op">=</span> <span class="st">"var1.var"</span><span class="op">)</span></span>
+<span><span class="va">OK.TMP.ENE.VAR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/mask.html">mask</a></span><span class="op">(</span><span class="va">OK.TMP.ENE.VAR</span>, <span class="va">DMQ</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">OK.TMP.ENE.VAR</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP.XY</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13_Kriging_files/figure-html/unnamed-chunk-9-2.png" width="672"></div>
+<p>Además de los valores interpolados, también es posible obtener un gráfico de la varianza, que es una medida de la incertidumbre asociada a las predicciones en cada punto del área de estudio. La varianza en el contexto de la interpolación, especialmente mediante Kriging, indica qué tan confiables son los valores estimados en diferentes ubicaciones.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+<li><a class="nav-link" href="#an%C3%A1lisis-preliminar"><span class="header-section-number">13.1</span> 1. Análisis preliminar</a></li>
+<li><a class="nav-link" href="#an%C3%A1lisis-exploratorio-de-los-datos"><span class="header-section-number">13.2</span> 2. Análisis exploratorio de los datos</a></li>
+<li><a class="nav-link" href="#dependencia-espacial-y-estimaci%C3%B3n-del-semivariograma-experimental"><span class="header-section-number">13.3</span> Dependencia espacial y estimación del semivariograma experimental</a></li>
+<li><a class="nav-link" href="#variograma-te%C3%B3rico-o-modelo-de-variograma"><span class="header-section-number">13.4</span> Variograma Teórico o Modelo de Variograma</a></li>
+<li><a class="nav-link" href="#ajuste-a-variograma"><span class="header-section-number">13.5</span> Ajuste a Variograma</a></li>
+<li><a class="nav-link" href="#interpolaci%C3%B3n"><span class="header-section-number">13.6</span> Interpolación</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/13_Kriging.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/13_Kriging.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

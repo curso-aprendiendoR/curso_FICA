@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo11 Gráficos con ggplot 2 | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="El diseño de gráficos es un capítulo muy extenso que requiere mucha práctica, sin embargo no es complejo de comprender. Utilizaremos el paquete ggplot2 para construir gráficos. ggplot2 es un...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo11 Gráficos con ggplot 2 | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="El diseño de gráficos es un capítulo muy extenso que requiere mucha práctica, sin embargo no es complejo de comprender. Utilizaremos el paquete ggplot2 para construir gráficos. ggplot2 es un...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo11 Gráficos con ggplot 2 | APRENDIENDO R">
+<meta name="twitter:description" content="El diseño de gráficos es un capítulo muy extenso que requiere mucha práctica, sin embargo no es complejo de comprender. Utilizaremos el paquete ggplot2 para construir gráficos. ggplot2 es un...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="active" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="gráficos-con-ggplot-2" class="section level1" number="11">
+<h1>
+<span class="header-section-number">Capitulo11</span> Gráficos con ggplot 2<a class="anchor" aria-label="anchor" href="#gr%C3%A1ficos-con-ggplot-2"><i class="fas fa-link"></i></a>
+</h1>
+<p>El diseño de gráficos es un capítulo muy extenso que requiere mucha práctica, sin embargo no es complejo de comprender. Utilizaremos el paquete <code>ggplot2</code> para construir gráficos.</p>
+<p><strong>ggplot2</strong> es un sistema para crear gráficos de forma declarativa es decir grafica a través de instrucciones</p>
+<p>Para el ejemplo utilizaremos la data generada por los organizadores del Octoberfest con respecto al consumo y precios a lo largo de los años de la cerveza y el pollo vendido en el festival.</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Descargaremos la data del portal de datos abiertos de Múchin</span></span>
+<span><span class="va">url_oktoberfest</span><span class="op">&lt;-</span> <span class="st">"https://opendata.muenchen.de/dataset/8d6c8251-7956-4f92-8c96-f79106aab828/resource/e0f664cf-6dd9-4743-bd2b-81a8b18bd1d2/download/oktoberfestgesamt19852022.csv"</span></span>
+<span><span class="va">df_oktoberfest</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">url_oktoberfest</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">df_oktoberfest</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'año'</span>,<span class="st">'duración'</span>,<span class="st">'visitantes_totales'</span>,</span>
+<span>                            <span class="st">'visitantes_tag'</span>,<span class="st">'precio_cerveza'</span>,</span>
+<span>                            <span class="st">'consumo_cerveza'</span>,</span>
+<span>                            <span class="st">'precio_pollo'</span>,<span class="st">'consumo_pollo'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">df_oktoberfest</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       año          duración     visitantes_totales</span></span>
+<span><span class="co">#&gt;  Min.   :1985   Min.   :16.00   Min.   :5.500     </span></span>
+<span><span class="co">#&gt;  1st Qu.:1994   1st Qu.:16.00   1st Qu.:6.000     </span></span>
+<span><span class="co">#&gt;  Median :2003   Median :16.00   Median :6.400     </span></span>
+<span><span class="co">#&gt;  Mean   :2003   Mean   :16.35   Mean   :6.322     </span></span>
+<span><span class="co">#&gt;  3rd Qu.:2012   3rd Qu.:16.00   3rd Qu.:6.500     </span></span>
+<span><span class="co">#&gt;  Max.   :2023   Max.   :18.00   Max.   :7.200     </span></span>
+<span><span class="co">#&gt;  visitantes_tag  precio_cerveza  consumo_cerveza</span></span>
+<span><span class="co">#&gt;  Min.   :329.0   Min.   : 3.20   Min.   :48698  </span></span>
+<span><span class="co">#&gt;  1st Qu.:369.0   1st Qu.: 4.89   1st Qu.:53807  </span></span>
+<span><span class="co">#&gt;  Median :394.0   Median : 6.75   Median :61772  </span></span>
+<span><span class="co">#&gt;  Mean   :387.1   Mean   : 7.25   Mean   :62799  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:406.0   3rd Qu.: 9.41   3rd Qu.:71340  </span></span>
+<span><span class="co">#&gt;  Max.   :444.0   Max.   :14.33   Max.   :79225  </span></span>
+<span><span class="co">#&gt;   precio_pollo    consumo_pollo   </span></span>
+<span><span class="co">#&gt;  Min.   : 3.920   Min.   :313636  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 5.340   1st Qu.:479610  </span></span>
+<span><span class="co">#&gt;  Median : 8.140   Median :509420  </span></span>
+<span><span class="co">#&gt;  Mean   : 7.988   Mean   :560189  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:10.070   3rd Qu.:681242  </span></span>
+<span><span class="co">#&gt;  Max.   :15.890   Max.   :807710</span></span></code></pre></div>
+<p>Figémonos en la estructura principal del gráfico:</p>
+<ul>
+<li>El primer atributo corresponde al data frame de donde se obtendrá la información</li>
+<li>El segundo atributo es <strong>aes()</strong> que permite seleccionar las variables a graficar y como presentarlas (a qué eje corresponden)</li>
+</ul>
+<p>Con los atributos listos ya podemos empezar a agregar capas para formar un gráfico cada vez más complejo.</p>
+<p>En el ejemplo relacionaremos el año con el precio de la cerveza e incluiremos dos tipos de gráfico, uno de puntos y uno lineal, para crear un gráfico de puntos hemos colocado <strong>geom_point</strong> y además hemos agregado un color con un código hexagesima, para el gráfico de línea agregamos <strong>geom_line</strong> y el color en palabras.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Instalaremos y llamaremos a la librería ggplot2</span></span>
+<span><span class="co"># install.packages("ggplot2") #Descomentar para instalar</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_oktoberfest</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">año</span>,y<span class="op">=</span><span class="va">precio_cerveza</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'green'</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'#c263f9'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11_graficos_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+<p>Al código anteiror le incluiremos títulos a los ejes, título al gráfico y un tema. Los títulos de los ejes los agregamos con <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab()</a></code>o <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab()</a></code> y el título del gráfico con <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle()</a></code>. Finalmente el tema aplicado será <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw()</a></code> que quita el fondo gris por defecto del gráfico.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_oktoberfest</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">año</span>,y<span class="op">=</span><span class="va">precio_cerveza</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'green'</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">'#c263f9'</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Año"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Precio Euros"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Precio de la Cerveza en el Octoberfest"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11_graficos_files/figure-html/unnamed-chunk-3-1.png" width="672"></div>
+<p>Ahora grafiquemos en el mismo gráfico el precio del pollo y el precio de la cerveza a lo largo de los años</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_oktoberfest</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">año</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">precio_cerveza</span>,color<span class="op">=</span><span class="st">'cerveza'</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">precio_pollo</span>,color<span class="op">=</span><span class="st">'pollo'</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>         <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Año"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">'Precio E'</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Precio de la Cerveza y el Pollo en el Oktoberfest'</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11_graficos_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+<p>Observe que ahora en el aes solo tenemos asignado x = año ya que es la variable en común, y en cada uno de los gráficos declaramos el eje “y”, además estamos indicando que asigne un color a la cervez y un color al pollo.</p>
+<p>Para nuestro siguiente gráfico vamos a instalar el paquete <code>reshape2</code> y ocuparemos la función <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt()</a></code> que permite reorganizar y resumir.</p>
+<ul>
+<li>El primer argumento corresponde al data frame de donde se obtendrá la información</li>
+<li>
+<code>id.vars()</code> corresponde a la variable de identificación</li>
+<li>
+<code>measure.vars()</code> son las variables de organización</li>
+</ul>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Instalaremos y llamaremos a la librería ggplot2</span></span>
+<span><span class="co"># install.packages("reshape2") #Descomentar para instalar</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span></span>
+<span><span class="va">df_melted</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="va">df_oktoberfest</span>,id.vars<span class="op">=</span><span class="op">(</span><span class="st">'año'</span><span class="op">)</span>,</span>
+<span>                 measure.vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'precio_pollo'</span>,<span class="st">'precio_cerveza'</span><span class="op">)</span>,</span>
+<span>                 variable.name<span class="op">=</span><span class="st">'tipo'</span>,value.name <span class="op">=</span> <span class="st">'precio'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df_melted</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    año         tipo precio</span></span>
+<span><span class="co">#&gt; 1 1985 precio_pollo   4.77</span></span>
+<span><span class="co">#&gt; 2 1986 precio_pollo   3.92</span></span>
+<span><span class="co">#&gt; 3 1987 precio_pollo   3.98</span></span>
+<span><span class="co">#&gt; 4 1988 precio_pollo   4.19</span></span>
+<span><span class="co">#&gt; 5 1989 precio_pollo   4.22</span></span>
+<span><span class="co">#&gt; 6 1990 precio_pollo   4.47</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">df_melted</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     año           tipo precio</span></span>
+<span><span class="co">#&gt; 69 2016 precio_cerveza  10.57</span></span>
+<span><span class="co">#&gt; 70 2017 precio_cerveza  10.87</span></span>
+<span><span class="co">#&gt; 71 2018 precio_cerveza  11.30</span></span>
+<span><span class="co">#&gt; 72 2019 precio_cerveza  11.71</span></span>
+<span><span class="co">#&gt; 73 2022 precio_cerveza  13.45</span></span>
+<span><span class="co">#&gt; 74 2023 precio_cerveza  14.33</span></span></code></pre></div>
+<p>Grafiquemos un diagrama de barras que represente tanto el precio de la cerveza como el del pollo. En aes (contenido estético) hemos colocado el año como variable independiente y el precio como varible dependiente. Mire que para graficar columnas tenemos <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code> y en position = ‘dodge’ es decir que las columnas se graficarán sin espacio entre sí</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_melted</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">año</span>, y<span class="op">=</span><span class="va">precio</span>, color<span class="op">=</span><span class="va">tipo</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">'dodge'</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">tipo</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Precio E"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Año"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Precio cerveza y pollo en Oktoberfest"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11_graficos_files/figure-html/unnamed-chunk-6-1.png" width="672"></div>
+<p>Finalmente haremos un grafico de correlación</p>
+<p>Primero con la función <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> generaremos correlaciones entre las variables del data frame</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cr_oktoberfest</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">df_oktoberfest</span><span class="op">)</span></span>
+<span><span class="va">cr_oktoberfest</span></span>
+<span><span class="co">#&gt;                           año   duración visitantes_totales</span></span>
+<span><span class="co">#&gt; año                 1.0000000  0.4315849       -0.224676225</span></span>
+<span><span class="co">#&gt; duración            0.4315849  1.0000000        0.207551671</span></span>
+<span><span class="co">#&gt; visitantes_totales -0.2246762  0.2075517        1.000000000</span></span>
+<span><span class="co">#&gt; visitantes_tag     -0.4644614 -0.3798716        0.825457655</span></span>
+<span><span class="co">#&gt; precio_cerveza      0.9873733  0.4514158       -0.172881811</span></span>
+<span><span class="co">#&gt; consumo_cerveza     0.8918055  0.4178338        0.003398335</span></span>
+<span><span class="co">#&gt; precio_pollo        0.9720990  0.4861828       -0.167548583</span></span>
+<span><span class="co">#&gt; consumo_pollo      -0.8497377 -0.3206961        0.369291773</span></span>
+<span><span class="co">#&gt;                    visitantes_tag precio_cerveza</span></span>
+<span><span class="co">#&gt; año                    -0.4644614      0.9873733</span></span>
+<span><span class="co">#&gt; duración               -0.3798716      0.4514158</span></span>
+<span><span class="co">#&gt; visitantes_totales      0.8254577     -0.1728818</span></span>
+<span><span class="co">#&gt; visitantes_tag          1.0000000     -0.4275875</span></span>
+<span><span class="co">#&gt; precio_cerveza         -0.4275875      1.0000000</span></span>
+<span><span class="co">#&gt; consumo_cerveza        -0.2391642      0.8732945</span></span>
+<span><span class="co">#&gt; precio_pollo           -0.4438951      0.9870883</span></span>
+<span><span class="co">#&gt; consumo_pollo           0.5353060     -0.8306472</span></span>
+<span><span class="co">#&gt;                    consumo_cerveza precio_pollo</span></span>
+<span><span class="co">#&gt; año                    0.891805498    0.9720990</span></span>
+<span><span class="co">#&gt; duración               0.417833780    0.4861828</span></span>
+<span><span class="co">#&gt; visitantes_totales     0.003398335   -0.1675486</span></span>
+<span><span class="co">#&gt; visitantes_tag        -0.239164239   -0.4438951</span></span>
+<span><span class="co">#&gt; precio_cerveza         0.873294471    0.9870883</span></span>
+<span><span class="co">#&gt; consumo_cerveza        1.000000000    0.8617829</span></span>
+<span><span class="co">#&gt; precio_pollo           0.861782943    1.0000000</span></span>
+<span><span class="co">#&gt; consumo_pollo         -0.645371093   -0.8529126</span></span>
+<span><span class="co">#&gt;                    consumo_pollo</span></span>
+<span><span class="co">#&gt; año                   -0.8497377</span></span>
+<span><span class="co">#&gt; duración              -0.3206961</span></span>
+<span><span class="co">#&gt; visitantes_totales     0.3692918</span></span>
+<span><span class="co">#&gt; visitantes_tag         0.5353060</span></span>
+<span><span class="co">#&gt; precio_cerveza        -0.8306472</span></span>
+<span><span class="co">#&gt; consumo_cerveza       -0.6453711</span></span>
+<span><span class="co">#&gt; precio_pollo          -0.8529126</span></span>
+<span><span class="co">#&gt; consumo_pollo          1.0000000</span></span></code></pre></div>
+<p>Ahora organizaremos la data en dos variables que combinen las variables entre ellas. Observa estamos utilizando la función <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt()</a></code></p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span></span>
+<span><span class="va">mlt_cor_oktober</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="va">cr_oktoberfest</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">mlt_cor_oktober</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  Var1          Var2      value</span></span>
+<span><span class="co">#&gt; 59 visitantes_totales consumo_pollo  0.3692918</span></span>
+<span><span class="co">#&gt; 60     visitantes_tag consumo_pollo  0.5353060</span></span>
+<span><span class="co">#&gt; 61     precio_cerveza consumo_pollo -0.8306472</span></span>
+<span><span class="co">#&gt; 62    consumo_cerveza consumo_pollo -0.6453711</span></span>
+<span><span class="co">#&gt; 63       precio_pollo consumo_pollo -0.8529126</span></span>
+<span><span class="co">#&gt; 64      consumo_pollo consumo_pollo  1.0000000</span></span></code></pre></div>
+<p>Generemos el gráfico correlacional. Las variables serán la columna Var1 y la columna Var2 del data frame organizado, recuerda que en las dos columnas hay los mismo parámetro; además hemos colocado un color de relleno <code>fill()</code> que dependerá del valor de la correlación.
+En este gráfico hemos configurado la escala con la función <code><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient2()</a></code> en donde definimos el color que representa una correlación alta, media y baja, además de los límites correlacionales.</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">mlt_cor_oktober</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span> <span class="va">Var1</span>, y <span class="op">=</span><span class="va">Var2</span>, fill<span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradient2</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">'blue'</span>,high <span class="op">=</span><span class="st">'red'</span>,mid <span class="op">=</span> <span class="st">'white'</span>,midpoint <span class="op">=</span> <span class="fl">0</span>,limit<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                       name<span class="op">=</span> <span class="st">"Correlación"</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_axis.html">guide_axis</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11_graficos_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></div>
+<div class="next"><a href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#gr%C3%A1ficos-con-ggplot-2"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/11_graficos.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/11_graficos.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

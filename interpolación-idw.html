@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo13 Interpolación IDW | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="La data que utilizaremos para realizar este ejemplo de interpolación corresponde a temperatura media mensual de 9 estaciones pertenecientes a la Red Metropolitana de Monitoreo Atmosférico de Quito...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo13 Interpolación IDW | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="La data que utilizaremos para realizar este ejemplo de interpolación corresponde a temperatura media mensual de 9 estaciones pertenecientes a la Red Metropolitana de Monitoreo Atmosférico de Quito...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo13 Interpolación IDW | APRENDIENDO R">
+<meta name="twitter:description" content="La data que utilizaremos para realizar este ejemplo de interpolación corresponde a temperatura media mensual de 9 estaciones pertenecientes a la Red Metropolitana de Monitoreo Atmosférico de Quito...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="" href="interpolaci%C3%B3n.html"><span class="header-section-number">12</span> Interpolación</a></li>
+<li><a class="active" href="interpolaci%C3%B3n-idw.html"><span class="header-section-number">13</span> Interpolación IDW</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="interpolación-idw" class="section level1" number="13">
+<h1>
+<span class="header-section-number">Capitulo13</span> Interpolación IDW<a class="anchor" aria-label="anchor" href="#interpolaci%C3%B3n-idw"><i class="fas fa-link"></i></a>
+</h1>
+<p>La data que utilizaremos para realizar este ejemplo de interpolación corresponde a temperatura media mensual de 9 estaciones pertenecientes a la Red Metropolitana de Monitoreo Atmosférico de Quito y 8 puntos de datos de la base ERA5.
+La data se encuentra en formato csv y debe incluir coordenadas geográficas junto con la información que se desea interpolar.</p>
+<p>Observe por favor que en esta ocación estamos usando el comando <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv2()</a></code>, hemos realizado esta pequeña variación ya que <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> lee archivos CSV donde los valores están separados por comas y <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv2()</a></code> lee archivos CSV donde los valores están separados por punto y coma</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TMP.XY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv2</a></span><span class="op">(</span><span class="st">"./documentos/DATOS/TMP.csv"</span>,sep <span class="op">=</span><span class="st">";"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   ESTACION  ALT    LON     LAT      ENE      FEB      MAR</span></span>
+<span><span class="co">#&gt; 1      BEL 2797 779400 9980085 14.23673 14.26562 13.80180</span></span>
+<span><span class="co">#&gt; 2      CAR 2659 784166 9989120 14.95924 14.96538 14.72410</span></span>
+<span><span class="co">#&gt; 3      CEN 2820 777160 9975660 14.51384 14.53692 14.17645</span></span>
+<span><span class="co">#&gt; 4      COT 2752 778596 9988076 14.20713 14.22295 14.01523</span></span>
+<span><span class="co">#&gt; 5      CAM 2922 777171 9972341 14.30878 14.40736 14.07245</span></span>
+<span><span class="co">#&gt; 6      GUA 3047 772559 9963399 12.46508 12.56331 12.19916</span></span>
+<span><span class="co">#&gt;        ABR      MAY      JUN      JUL      AGO      SEP</span></span>
+<span><span class="co">#&gt; 1 14.07283 14.38742 13.97779 14.06035 14.27666 14.26440</span></span>
+<span><span class="co">#&gt; 2 14.97188 15.11339 14.76750 14.79881 15.06350 14.99567</span></span>
+<span><span class="co">#&gt; 3 14.43631 14.79578 14.34138 14.50590 14.70644 14.64899</span></span>
+<span><span class="co">#&gt; 4 14.28403 14.44142 14.05678 14.05837 14.34585 14.19951</span></span>
+<span><span class="co">#&gt; 5 14.28144 14.69704 14.21836 14.32308 14.47795 14.41738</span></span>
+<span><span class="co">#&gt; 6 12.35128 12.64246 12.19130 12.15143 12.35342 12.43739</span></span>
+<span><span class="co">#&gt;        OCT      NOV      DIC</span></span>
+<span><span class="co">#&gt; 1 13.83736 13.72376 14.10633</span></span>
+<span><span class="co">#&gt; 2 14.70503 14.66559 14.82405</span></span>
+<span><span class="co">#&gt; 3 14.15520 14.14233 14.33171</span></span>
+<span><span class="co">#&gt; 4 13.91050 13.92557 14.14147</span></span>
+<span><span class="co">#&gt; 5 13.96736 13.85475 14.13327</span></span>
+<span><span class="co">#&gt; 6 12.09178 12.10770 12.29634</span></span></code></pre></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="interpolaci%C3%B3n.html"><span class="header-section-number">12</span> Interpolación</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#interpolaci%C3%B3n-idw"><span class="header-section-number">13</span> Interpolación IDW</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/12_Geoestadistica.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/12_Geoestadistica.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

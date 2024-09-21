@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capitulo12 Interpolación - método IDW | APRENDIENDO R</title>
+<meta name="author" content="Paola Guerrero">
+<meta name="description" content="12.1 Antes de empezar Durante el procedimiento de interpolación ocuparemos varias librerías que dejaremos cargadas. library(gstat) library(raster) #&gt; Loading required package: sp library(sp)...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content="Capitulo12 Interpolación - método IDW | APRENDIENDO R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="12.1 Antes de empezar Durante el procedimiento de interpolación ocuparemos varias librerías que dejaremos cargadas. library(gstat) library(raster) #&gt; Loading required package: sp library(sp)...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capitulo12 Interpolación - método IDW | APRENDIENDO R">
+<meta name="twitter:description" content="12.1 Antes de empezar Durante el procedimiento de interpolación ocuparemos varias librerías que dejaremos cargadas. library(gstat) library(raster) #&gt; Loading required package: sp library(sp)...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Sen-0.4.9/font.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM%20Mono&amp;display=swap" rel="stylesheet">
+<link href="libs/Bitter-0.4.9/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.8.0/transition.js"></script><script src="libs/bs3compat-0.8.0/tabs.js"></script><script src="libs/bs3compat-0.8.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">APRENDIENDO R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Introducción</a></li>
+<li class="book-part">Antes de Empezar</li>
+<li><a class="" href="instalaci%C3%B3n.html"><span class="header-section-number">1</span> Instalación</a></li>
+<li><a class="" href="interfaz-de-rstudio.html"><span class="header-section-number">2</span> Interfaz de RStudio</a></li>
+<li class="book-part">Primeros Pasos: Variables y Lectura de Datos</li>
+<li><a class="" href="variables.html"><span class="header-section-number">3</span> Variables</a></li>
+<li><a class="" href="vectores.html"><span class="header-section-number">4</span> Vectores</a></li>
+<li><a class="" href="data-frames.html"><span class="header-section-number">5</span> Data Frames</a></li>
+<li><a class="" href="lectura-de-datos.html"><span class="header-section-number">6</span> Lectura de Datos</a></li>
+<li class="book-part">Facilitando el trabajo: Flujo del programa y Estructuras de Control</li>
+<li><a class="" href="funciones-b%C3%A1sicas.html"><span class="header-section-number">7</span> Funciones básicas</a></li>
+<li><a class="" href="condicional-if---else.html"><span class="header-section-number">8</span> Condicional IF - ELSE</a></li>
+<li><a class="" href="estructuras-de-control-bucles.html"><span class="header-section-number">9</span> Estructuras de Control: Bucles</a></li>
+<li><a class="" href="funciones-de-la-familia-apply.html"><span class="header-section-number">10</span> Funciones de la familia Apply</a></li>
+<li><a class="" href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></li>
+<li class="book-part">Geoestadística</li>
+<li><a class="active" href="interpolaci%C3%B3n---m%C3%A9todo-idw.html"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="" href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/curso-aprendiendoR/curso_FICA.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="interpolación---método-idw" class="section level1" number="12">
+<h1>
+<span class="header-section-number">Capitulo12</span> Interpolación - método IDW<a class="anchor" aria-label="anchor" href="#interpolaci%C3%B3n---m%C3%A9todo-idw"><i class="fas fa-link"></i></a>
+</h1>
+<div id="antes-de-empezar" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Antes de empezar<a class="anchor" aria-label="anchor" href="#antes-de-empezar"><i class="fas fa-link"></i></a>
+</h2>
+<p>Durante el procedimiento de interpolación ocuparemos varias librerías que dejaremos cargadas.</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/gstat/">gstat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: sp</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/writexl/">writexl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:raster':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, select, union</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<p>Antes de empezar cualquier proceso que requiera un sistema de referencia de coordenadas para trabajar, es necesario y muy importante definir este sistema que utilizaremos para nuestro análisis. Es crucial que todos los recursos y datos estén en el mismo sistema de referencia para asegurar la coherencia y precisión en el análisis. Si los datos provienen de diferentes fuentes y tienen sistemas de referencia distintos, es necesario transformarlos al sistema de referencia común. En esta ocación se empleará el sistema de coordenadas UTM.</p>
+<p>En la línea de codigo que veremos a continuación, únicamente estamos almacenando en una variable el sistema de coordenadas con el que trabajaremos durante el proyecto; tenerlo como una variable nos ahorrará mucho tiempo de escritura cada vez que lo necesitemos.</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">utm17s</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=17 +south +datum=WGS84 +units=m +no_defs"</span></span></code></pre></div>
+<p>En el ejemplo a trabajar cargaremos un archivo tipo vector <strong>.shp</strong> correspondiente al área del Distrito Metropolitano de Quito, que nos permitirá estar ubicados en espacio.</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">DMQ</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/shapefile.html">shapefile</a></span><span class="op">(</span><span class="st">"./documentos/DATOS/DMQ_arc/limite_dmq.shp"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">DMQ</span><span class="op">)</span> <span class="co"># Nos mostrará la información del shapefile</span></span>
+<span><span class="co">#&gt; class       : SpatialPolygonsDataFrame </span></span>
+<span><span class="co">#&gt; features    : 1 </span></span>
+<span><span class="co">#&gt; extent      : 450069.9, 536741.5, 9934660, 10028268  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; crs         : +proj=tmerc +lat_0=0 +lon_0=-78.5 +k=1.0004584 +x_0=500000 +y_0=10000000 +datum=WGS84 +units=m +no_defs </span></span>
+<span><span class="co">#&gt; variables   : 1</span></span>
+<span><span class="co">#&gt; names       :         NOMBRE </span></span>
+<span><span class="co">#&gt; value       : limite del DMQ</span></span></code></pre></div>
+<p>Observemos que el CRS (Sistema de referencia de coordenadas) no corresponde a UTM, por lo que será necesario cambiar de sistema al que hemos establecido como CRS del proyecto.</p>
+<p>Al cargar un archivo vectorial a <code>R</code> este se convierte un tipo de dato llamado <strong>SpatialPointsDataFrame</strong> por lo que es necesario asignarle un sistema de coordenadas, sin embargo debe asignarse el mismo sistema de coordenadas de origen y posteriormente transformar el sistema.</p>
+<ul>
+<li><p><code><a href="https://edzer.github.io/sp/reference/is.projected.html">proj4string()</a></code> &lt;- <code><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS()</a></code> asigna un sistema de coordenadas proyectadas al data frame</p></li>
+<li><p>mientras que <code><a href="https://edzer.github.io/sp/reference/spTransform.html">spTransform()</a></code> permite el cambio de sistema de coordenadas</p></li>
+</ul>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">original_crs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=tmerc +lat_0=0 +lon_0=-78.5 +k=1.0004584 +x_0=500000 +y_0=10000000 +datum=WGS84 +units=m +no_defs"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/is.projected.html">proj4string</a></span><span class="op">(</span><span class="va">DMQ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">original_crs</span></span>
+<span><span class="va">DMQ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/spTransform.html">spTransform</a></span><span class="op">(</span><span class="va">DMQ</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="va">utm17s</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">DMQ</span>, axes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12_Geoestadistica_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+</div>
+<div id="interpolación-idw" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Interpolación IDW<a class="anchor" aria-label="anchor" href="#interpolaci%C3%B3n-idw"><i class="fas fa-link"></i></a>
+</h2>
+<p>La data que utilizaremos para realizar este ejemplo de interpolación corresponde a temperatura media mensual de 9 estaciones pertenecientes a la Red Metropolitana de Monitoreo Atmosférico de Quito y 8 puntos de datos de la base ERA5.
+La data se encuentra en formato csv y debe incluir coordenadas geográficas junto con la información que se desea interpolar.</p>
+<p>Observe por favor que en esta ocación estamos usando el comando <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv2()</a></code>, hemos realizado esta pequeña variación ya que <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> lee archivos CSV donde los valores están separados por comas y <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv2()</a></code> lee archivos CSV donde los valores están separados por punto y coma</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TMP.XY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv2</a></span><span class="op">(</span><span class="st">"./documentos/DATOS/TMP.csv"</span>,sep <span class="op">=</span><span class="st">";"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   ESTACION  ALT    LON     LAT      ENE      FEB      MAR</span></span>
+<span><span class="co">#&gt; 1      BEL 2797 779400 9980085 14.23673 14.26562 13.80180</span></span>
+<span><span class="co">#&gt; 2      CAR 2659 784166 9989120 14.95924 14.96538 14.72410</span></span>
+<span><span class="co">#&gt; 3      CEN 2820 777160 9975660 14.51384 14.53692 14.17645</span></span>
+<span><span class="co">#&gt; 4      COT 2752 778596 9988076 14.20713 14.22295 14.01523</span></span>
+<span><span class="co">#&gt; 5      CAM 2922 777171 9972341 14.30878 14.40736 14.07245</span></span>
+<span><span class="co">#&gt; 6      GUA 3047 772559 9963399 12.46508 12.56331 12.19916</span></span>
+<span><span class="co">#&gt;        ABR      MAY      JUN      JUL      AGO      SEP</span></span>
+<span><span class="co">#&gt; 1 14.07283 14.38742 13.97779 14.06035 14.27666 14.26440</span></span>
+<span><span class="co">#&gt; 2 14.97188 15.11339 14.76750 14.79881 15.06350 14.99567</span></span>
+<span><span class="co">#&gt; 3 14.43631 14.79578 14.34138 14.50590 14.70644 14.64899</span></span>
+<span><span class="co">#&gt; 4 14.28403 14.44142 14.05678 14.05837 14.34585 14.19951</span></span>
+<span><span class="co">#&gt; 5 14.28144 14.69704 14.21836 14.32308 14.47795 14.41738</span></span>
+<span><span class="co">#&gt; 6 12.35128 12.64246 12.19130 12.15143 12.35342 12.43739</span></span>
+<span><span class="co">#&gt;        OCT      NOV      DIC</span></span>
+<span><span class="co">#&gt; 1 13.83736 13.72376 14.10633</span></span>
+<span><span class="co">#&gt; 2 14.70503 14.66559 14.82405</span></span>
+<span><span class="co">#&gt; 3 14.15520 14.14233 14.33171</span></span>
+<span><span class="co">#&gt; 4 13.91050 13.92557 14.14147</span></span>
+<span><span class="co">#&gt; 5 13.96736 13.85475 14.13327</span></span>
+<span><span class="co">#&gt; 6 12.09178 12.10770 12.29634</span></span></code></pre></div>
+<ul>
+<li>
+<code><a href="https://edzer.github.io/sp/reference/coordinates.html">coordinates()</a></code> convierte un data frame regular (TMP) en un objeto espacial del tipo SpatialPointsDataFrame al asignarle coordenadas espaciales.</li>
+</ul>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html">coordinates</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span><span class="va">LON</span><span class="op">+</span><span class="va">LAT</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/is.projected.html">proj4string</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/CRS-class.html">CRS</a></span><span class="op">(</span><span class="va">utm17s</span><span class="op">)</span></span></code></pre></div>
+<p>Una vez que todos nuestros datos estén en el mismo sistema de referencia, resulta sencillo generar gráficos que combinan tanto las estaciones como el contorno del Distrito Metropolitano de Quito (DMQ). La homogeneidad en el sistema de referencia facilita la superposición de las capas de datos.</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">DMQ</span>, axes<span class="op">=</span><span class="cn">TRUE</span>, main<span class="op">=</span><span class="st">"Distrito Metropolitano de Quito"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP.XY</span>, col<span class="op">=</span><span class="st">"white"</span>, pch<span class="op">=</span><span class="fl">21</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html">coordinates</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span>, labels<span class="op">=</span><span class="va">TMP.XY</span><span class="op">$</span><span class="va">ESTACION</span>, pos<span class="op">=</span><span class="fl">3</span>, cex<span class="op">=</span><span class="fl">0.7</span>, col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12_Geoestadistica_files/figure-html/unnamed-chunk-7-1.png" width="672"></div>
+<p>Para realizar la interpolación es necesario hacer una <strong>grilla de predicción</strong>, que será una malla regular a partir del objeto SpatialPointsDataFrame TMP.XY y servirá como dominio (base) sobre el cual se realizará la interpolación. En este caso, se utiliza un tamaño de celda de 100 unidades para la malla.</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grilla</span> <span class="op">=</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/spsample.html">spsample</a></span><span class="op">(</span><span class="va">TMP.XY</span>, type <span class="op">=</span> <span class="st">"regular"</span>, cellsize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">grilla</span><span class="op">)</span> <span class="co">#Verificamos el tipo de dato</span></span>
+<span><span class="co">#&gt; [1] "SpatialPoints"</span></span>
+<span><span class="co">#&gt; attr(,"package")</span></span>
+<span><span class="co">#&gt; [1] "sp"</span></span>
+<span><span class="fu"><a href="https://edzer.github.io/sp/reference/gridded-methods.html">gridded</a></span><span class="op">(</span><span class="va">grilla</span><span class="op">)</span> <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#Verifica si se encuentra cuadriculado</span></span></code></pre></div>
+<p>¡Ahora si vamos a interpolar!</p>
+<p>La función <code><a href="https://r-spatial.github.io/gstat/reference/krige.html">idw()</a></code> utiliza el método IDW para interpolar los valores, en este caso interpolará la columna ENE, que corresponde a los datos de temperatura mensual miltianual del mes de Enero, la interpolación se hará sobre una grilla de puntos definida (grilla), basada en las estaciones contenidas en TMP.XY. ENE <strong>~ 1</strong> indica que se está interpolando una variable sin efectos dependientes adicionales.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster()</a></code> Convierte el resultado de la interpolación IDW a un objeto raster.</li>
+<li>el comando <code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster()</a></code> tiene varias funcionalidades, puede ayudarnos a cargar archivos tipo <strong>.tif</strong> pero también a convertirlos a este formato, esta última es nuestra necesidad</li>
+<li>finalmente <code><a href="https://rspatial.github.io/terra/reference/mask.html">mask()</a></code> permite cortar un archivo tipo <strong>.tif</strong> a partir de uno tipo <strong>.shp</strong>
+</li>
+</ul>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">IDW.TMP.ENE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/krige.html">idw</a></span><span class="op">(</span><span class="va">ENE</span><span class="op">~</span> <span class="fl">1</span>, <span class="va">TMP.XY</span>, <span class="va">grilla</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="va">IDW.TMP.ENE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">IDW.TMP.ENE</span><span class="op">)</span></span>
+<span><span class="va">IDW.TMP.ENE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/mask.html">mask</a></span><span class="op">(</span><span class="va">IDW.TMP.ENE</span>, <span class="va">DMQ</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">IDW.TMP.ENE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP.XY</span>, col<span class="op">=</span><span class="st">"white"</span>, pch<span class="op">=</span><span class="fl">21</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html">coordinates</a></span><span class="op">(</span><span class="va">TMP.XY</span><span class="op">)</span>, labels<span class="op">=</span><span class="va">TMP.XY</span><span class="op">$</span><span class="va">ESTACION</span>, pos<span class="op">=</span><span class="fl">3</span>, cex<span class="op">=</span><span class="fl">0.7</span>, col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12_Geoestadistica_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<p>Ahora supongamos, que es el caso más esperado, no solo necesitamos realizar la interpolación de un mes, sino de todo el año. El uso de un bucle FOR (aunque recuerde puede usar un apply para ser más eficiente) en la interpolación puede ser extremadamente útil. Este enfoque automatiza el proceso de interpolación, permitiendo aplicar el mismo método de manera repetitiva a diferentes subconjuntos de datos sin necesidad de hacerlo manualmente para cada uno.</p>
+<p>Recordemos que antes un bucle, sobre todo si deseo almacenar los datos debo declara una variable vacía, en este caso será una lista vacía.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">IDW.TMP_rasters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Ahora repitamos el proceso de interpolación para todos los meses</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">mes</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ENE"</span>, <span class="st">"FEB"</span>, <span class="st">"MAR"</span>, <span class="st">"ABR"</span>, <span class="st">"MAY"</span>, <span class="st">"JUN"</span>, <span class="st">"JUL"</span>, <span class="st">"AGO"</span>, <span class="st">"SEP"</span>, <span class="st">"OCT"</span>, <span class="st">"NOV"</span>, <span class="st">"DIC"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># IDW</span></span>
+<span>  </span>
+<span>  <span class="va">IDW.TMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/gstat/reference/krige.html">idw</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">mes</span>, <span class="st">"~ 1"</span><span class="op">)</span><span class="op">)</span>, <span class="va">TMP.XY</span>, <span class="va">grilla</span><span class="op">)</span></span>
+<span>  <span class="va">IDW.TMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html">raster</a></span><span class="op">(</span><span class="va">IDW.TMP</span><span class="op">)</span></span>
+<span>  <span class="va">IDW.TMP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/mask.html">mask</a></span><span class="op">(</span><span class="va">IDW.TMP</span>, <span class="va">DMQ</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Guardar el raster en la lista</span></span>
+<span>  </span>
+<span>  <span class="va">IDW.TMP_rasters</span><span class="op">[[</span><span class="va">mes</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">IDW.TMP</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span>
+<span><span class="co">#&gt; [inverse distance weighted interpolation]</span></span></code></pre></div>
+<p>Grafiquemos solo un mes</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">IDW.TMP_rasters</span><span class="op">$</span><span class="va">JUN</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">TMP.XY</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12_Geoestadistica_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+<div id="exportando-datos" class="section level3" number="12.2.1">
+<h3>
+<span class="header-section-number">12.2.1</span> Exportando datos<a class="anchor" aria-label="anchor" href="#exportando-datos"><i class="fas fa-link"></i></a>
+</h3>
+<p>La capacidad de exportar raster permite que los resultados de las interpolaciones sean utilizados y visualizados en diversas aplicaciones de SIG, de esta manera, se facilita la integración y comparación de datos con otros conjuntos de información espacial y se pueden realizar análisis adicionales con herramientas avanzadas.</p>
+<p>La primera parte de este apartado nos permitirá crear una carpeta desde <code>R</code> para almacenar los resultados, por lo que no es primordial, pero es buena práctica.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> Obtiene el directorio de trabajo actual</li>
+<li>
+<code><a href="https://rdrr.io/r/base/file.path.html">file.path()</a></code> Crea la ruta completa de un archivo, uniendo lo que se encuentre en el argumento, en este caso directorio y nombre de la carpeta</li>
+</ul>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">DIRECTORIO</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">folder_name</span> <span class="op">&lt;-</span> <span class="st">"IDW_TMP_Rasters"</span> <span class="co"># Definimos el nombre de la carpeta que se desea crear</span></span>
+<span><span class="co">#folder_TMP &lt;- file.path(DIRECTORIO, folder_name)</span></span>
+<span></span>
+<span><span class="co"># para mi caso en específico (subir mis archivos a la web) no utilizaré la dirección del directorio</span></span>
+<span></span>
+<span><span class="va">folder_TMP</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"."</span>,<span class="va">folder_name</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Verifica si hay un carpeta con ese nombre, sino, crea la carpeta</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="va">folder_TMP</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">folder_TMP</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Ahora exportemos los raster de interpolación en formato GeoTIFF</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">mes</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">IDW.TMP_rasters</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">output_filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">folder_TMP</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"IDW_TMP_"</span>, <span class="va">mes</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rspatial.github.io/terra/reference/writeRaster.html">writeRaster</a></span><span class="op">(</span><span class="va">IDW.TMP_rasters</span><span class="op">[[</span><span class="va">mes</span><span class="op">]</span><span class="op">]</span>, filename <span class="op">=</span> <span class="va">output_filename</span>, format <span class="op">=</span> <span class="st">"GTiff"</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="gr%C3%A1ficos-con-ggplot-2.html"><span class="header-section-number">11</span> Gráficos con ggplot 2</a></div>
+<div class="next"><a href="interpolaci%C3%B3n---m%C3%A9todo-kriging-ordinario.html"><span class="header-section-number">13</span> Interpolación - método Kriging Ordinario</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#interpolaci%C3%B3n---m%C3%A9todo-idw"><span class="header-section-number">12</span> Interpolación - método IDW</a></li>
+<li><a class="nav-link" href="#antes-de-empezar"><span class="header-section-number">12.1</span> Antes de empezar</a></li>
+<li>
+<a class="nav-link" href="#interpolaci%C3%B3n-idw"><span class="header-section-number">12.2</span> Interpolación IDW</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exportando-datos"><span class="header-section-number">12.2.1</span> Exportando datos</a></li></ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/curso-aprendiendoR/curso_FICA.git/blob/master/12_Geoestadistica.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/curso-aprendiendoR/curso_FICA.git/edit/master/12_Geoestadistica.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>APRENDIENDO R</strong>" was written by Paola Guerrero. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
